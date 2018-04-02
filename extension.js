@@ -74,6 +74,8 @@ function activate(context) {
                 let name = vscode.workspace.name;
                 vscode.window.showInformationMessage('Sorted ' + name);
             }
+        } else {
+            vscode.window.showErrorMessage('Unable to sort the workspaces folders. The workspace file was not found. Last checked path: ' + path);
         }
     });
 
