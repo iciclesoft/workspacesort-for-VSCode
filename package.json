@@ -1,0 +1,47 @@
+{
+    "name": "workspacesort",
+    "displayName": "WorkspaceSort",
+    "description": "Workspacesort adds a command to sort workspace-folders other than the default sorting order.",
+    "version": "0.0.1",
+    "publisher": "iciclesoft",
+    "license": "MIT",
+    "engines": {
+        "vscode": "^1.21.0"
+    },
+    "categories": [
+        "Other"
+    ],
+    "activationEvents": [
+        "onCommand:extension.sort"
+    ],
+    "main": "./extension",
+    "contributes": {
+        "commands": [
+            {
+                "command": "extension.sort",
+                "title": "Sort Workspace Folders"
+            }
+        ],
+        "menus": {
+            "explorer/context": [
+                {
+                    "when": "explorerResourceIsFolder",
+                    "command": "extension.sort",
+                    "group": "2_workspace"
+                }
+            ]
+        }
+    },
+    "repository": "github:iciclesoft/workspacesort-for-VSCode",
+    "scripts": {
+        "postinstall": "node ./node_modules/vscode/bin/install",
+        "test": "node ./node_modules/vscode/bin/test"
+    },
+    "devDependencies": {
+        "vscode": "^1.1.6",
+        "eslint": "^4.11.0",
+        "@types/node": "^7.0.43",
+        "@types/mocha": "^2.2.42"
+    },
+    "dependencies": {}
+}
