@@ -1,10 +1,21 @@
 {
     "name": "workspacesort",
     "displayName": "WorkspaceSort",
-    "description": "Workspacesort adds a command to sort workspace-folders other than the default sorting order.",
-    "version": "0.0.1",
+    "description": "WorkspaceSort adds the ability to sort workspace-folders in the same way as files and inner-folders are sorted.",
+    "version": "1.0.0",
+    "author": "Marco de Zeeuw",
     "publisher": "iciclesoft",
     "license": "MIT",
+    "icon": "icon.png",
+    "galleryBanner": {
+        "color": "#121212",
+        "theme": "dark"
+    },
+    "keywords": [
+        "workspace",
+        "sort",
+        "alphabetical"
+	],
     "engines": {
         "vscode": "^1.21.0"
     },
@@ -35,7 +46,8 @@
     "repository": {
 		"type": "git",
 		"url": "https://github.com/iciclesoft/workspacesort-for-VSCode.git"
-	},
+    },
+    "homepage": "https://github.com/iciclesoft/workspacesort-for-VSCode",
 	"bugs": {
 		"url": "https://github.com/iciclesoft/workspacesort-for-VSCode/issues"
 	},
