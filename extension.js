@@ -39,8 +39,18 @@ function sortPaths(wsObject) {
     return changed;
 }
 
+function topLevelDirectory(path) {
+    if (typeof path === 'string') {
+        let split = path.split(sep).filter(it => Boolean(it.length));
+        return split[split.length - 1];
+    }
+    throw new Error('Invalid argument path, expected string but got ' + typeof path);
+}
+
 function alphabeticalPaths(a, b) {
-    return a.path === b.path ? 0 : a.path > b.path ? 1 : -1;
+    let topLevelA = topLevelDirectory(a.path).toLocaleLowerCase();
+    let topLevelB = topLevelDirectory(b.path).toLocaleLowerCase();
+    return topLevelA === topLevelB ? 0 : topLevelA > topLevelB ? 1 : -1;
 }
 
 function isSameArrayContent(a, b) {
@@ -88,5 +98,6 @@ function deactivate() {
 }
 exports.deactivate = deactivate;
 exports.sortPaths = sortPaths;
+exports.topLevelDirectory = topLevelDirectory;
 exports.alphabeticalPaths = alphabeticalPaths;
 exports.isSameArrayContent = isSameArrayContent;
