@@ -2,7 +2,7 @@
     "name": "workspacesort",
     "displayName": "WorkspaceSort",
     "description": "WorkspaceSort adds the ability to sort workspace-folders in the same way as files and inner-folders are sorted.",
-    "version": "1.0.1",
+    "version": "1.0.3",
     "author": "Marco de Zeeuw",
     "publisher": "iciclesoft",
     "license": "MIT",
@@ -13,7 +13,9 @@
     },
     "keywords": [
         "workspace",
+        "folder",
         "sort",
+        "order",
         "alphabetical"
     ],
     "engines": {
