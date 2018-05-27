@@ -1,32 +1,81 @@
 // The module 'vscode' contains the VS Code extensibility API
 const vscode = require('vscode');
 const fs = require('fs');
-const sep = require('path').sep;
+const nodePath = require('path');
+const sep = nodePath.sep;
 
 function fileExists(path) {
-    try {
-        fs.accessSync(path);
-        return true;
-    } catch (ex) {
+    if (typeof path === 'string') {
+        try {
+            fs.accessSync(path);
+            return true;
+        } catch (ex) {
+            // Unable to access the file
+        }
+    }
+    return false;
+}
+
+function sanitizedWorkspaceName(str) {
+    return str.replace(/\s(\([^()]+\))$/, '');
+}
+
+function isCodeWorkspaceFile(path) {
+    if (typeof path === 'string') {
+        if (fileExists(path)) {
+            let fileContent = fs.readFileSync(path);
+            let wsObject = JSON.parse(fileContent);
+            let projFolders = vscode.workspace.workspaceFolders;
+            if (wsObject.folders && wsObject.folders.length === projFolders.length) {
+                return true;
+            }
+        }
         return false;
     }
+    throw new Error('Invalid argument path, expected string but got ' + typeof path);
 }
 
 function getWorkspacePath() {
-    let uri = vscode.workspace.rootPath + sep + '..';
-    let name = vscode.workspace.name.replace(' (Workspace)', '');
+    let name = sanitizedWorkspaceName(vscode.workspace.name);
     let workspaceFile = name + '.code-workspace';
-    let path = uri + sep + workspaceFile;
-    
-    if (fileExists(path)) {
-        let dirContent = fs.readdirSync(uri);
-        let workspaceFiles = dirContent.filter(item => item.match(/.+\.code-workspace$/));
-        if (workspaceFiles.length === 1) {
-            workspaceFile = workspaceFiles[0];
-            path = uri + sep + workspaceFile;
+    // First, check the settings
+    let config = vscode.workspace.getConfiguration('workspacesort');
+    if (config.has('workspaceDirectory')) {
+        let workspaceDir = config.get('workspaceDirectory');
+        // Does the directory contain the .code-workspace file?
+        if (workspaceDir && workspaceDir.length > 0) {
+            // If the setting is a file, just get the directory
+            if (workspaceDir.indexOf('.') > -1) {
+                workspaceDir = nodePath.dirname(workspaceDir);
+            }
+            let path = nodePath.normalize(workspaceDir + sep + workspaceFile);
+            if (isCodeWorkspaceFile(path)) {
+                return path;
+            }
         }
     }
-    return path;
+    // No setting active? Get it from the folder-structure
+    let visited = [];
+    let projFolders = vscode.workspace.workspaceFolders;
+    // Walk the project tree
+    for (let projFolder of projFolders) {
+        let folder = projFolder.uri.fsPath;
+        // Visit all parent folders until we find the .code-workspace file
+        while (folder.indexOf(sep) !== -1) {
+            if (!visited.includes(folder)) {
+                visited.push(folder);
+                let path = nodePath.normalize(folder + sep + workspaceFile);
+                if (isCodeWorkspaceFile(path)) {
+                    return path;
+                }
+                folder = nodePath.normalize(folder + sep + '..' + sep);
+            } else {
+                break;
+            }
+        }
+    }
+
+    return '';
 }
 
 function sortPaths(wsObject) {
@@ -85,7 +134,7 @@ function activate(context) {
                 vscode.window.showInformationMessage('Sorted ' + name);
             }
         } else {
-            vscode.window.showErrorMessage('Unable to sort the workspaces folders. The workspace file was not found. Last checked path: ' + path);
+            vscode.window.showErrorMessage('The .code-workspace file for this workspace was not found. Please use the setting workspacesort.workspaceDirectory to tell WorkspaceSort where it can be found.');
         }
     });
 
@@ -94,9 +143,9 @@ function activate(context) {
 exports.activate = activate;
 
 // this method is called when your extension is deactivated
-function deactivate() {
-}
+function deactivate() {}
 exports.deactivate = deactivate;
+exports.sanitizedWorkspaceName = sanitizedWorkspaceName;
 exports.sortPaths = sortPaths;
 exports.topLevelDirectory = topLevelDirectory;
 exports.alphabeticalPaths = alphabeticalPaths;

@@ -17,6 +17,42 @@ const sep = require('path').sep;
 
 // Defines a Mocha test suite to group tests of similar kind together
 suite('Extension Tests', function() {
+    test('sanitizedWorkspaceName', function () {
+        let workspacePostfixes = [
+            ' (Workspace)',
+            ' (Werkruimte)',
+            // Thanks to Google Translate
+            ' (工作区)',
+            ' (工作區)',
+            ' (Espace de travail)',
+            ' (Arbeitsplatz)',
+            ' (Area di lavoro)',
+            ' (Espacio de trabajo)',
+            ' (ワークスペース)',
+            ' (작업 영역)',
+            ' (Рабочее пространство)',
+            ' (Област)',
+            ' (munkaterület)',
+            ' (Área de trabalho)',
+            ' (Çalışma Alanı)'
+        ];
+
+        let workspaceNames = [
+            'imageFilter',
+            'Tower Defense',
+            'EVE Live DPS Graph (free)',
+            'Project Sort (Workspace)'
+        ];
+
+        workspaceNames.forEach(function (name) {
+            workspacePostfixes.forEach(function (postfix) {
+                let postfixedName = name + postfix;
+                let sanitized = extension.sanitizedWorkspaceName(postfixedName);
+                assert.equal(name, sanitized, postfixedName + ' should become ' + name + ' after sanitizing instead of ' + sanitized + '.');
+            });
+        });
+    });
+
     test('sortPaths', function() {
         let obj = {
             'folders': [
