@@ -2,7 +2,7 @@
     "name": "workspacesort",
     "displayName": "WorkspaceSort",
     "description": "WorkspaceSort adds the ability to sort workspace-folders in the same way as files and inner-folders are sorted.",
-    "version": "1.1.0",
+    "version": "1.1.1",
     "author": "Marco de Zeeuw",
     "publisher": "iciclesoft",
     "license": "MIT",
@@ -54,7 +54,7 @@
                         "null"
                     ],
                     "default": null,
-                    "description": "The absolute path of the directory containing the .code-workspace file."
+                    "description": "(Optional) The absolute path of the directory containing the .code-workspace file. Instead of trying to find the file automatically it will now use this directory."
                 }
             }
         }
