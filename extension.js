@@ -145,6 +145,7 @@ exports.activate = activate;
 // this method is called when your extension is deactivated
 function deactivate() {}
 exports.deactivate = deactivate;
+exports.fileExists = fileExists;
 exports.sanitizedWorkspaceName = sanitizedWorkspaceName;
 exports.sortPaths = sortPaths;
 exports.topLevelDirectory = topLevelDirectory;

@@ -9,6 +9,7 @@
 const assert = require('assert');
 const extension = require('./../extension');
 const sep = require('path').sep;
+const nodePath = require('path');
 
 // You can import and use all API from the 'vscode' module
 // as well as import your extension to test it
@@ -17,6 +18,17 @@ const sep = require('path').sep;
 
 // Defines a Mocha test suite to group tests of similar kind together
 suite('Extension Tests', function() {
+    test('fileExists', function () {
+        let existingPath = nodePath.join(__dirname, 'extension.test.js');
+        let nonExistingPath = nodePath.join(__dirname, 'extension.js');
+
+        // This file test/extension.test.js exists
+        assert.equal(true, extension.fileExists(existingPath), 'The file ' + existingPath + ' does exist.');
+        // This file test/extension.js does not exist
+        assert.equal(false, extension.fileExists(nonExistingPath), 'The file ' + nonExistingPath + ' does not exist.');
+    });
+
+
     test('sanitizedWorkspaceName', function () {
         let workspacePostfixes = [
             ' (Workspace)',
@@ -63,6 +75,7 @@ suite('Extension Tests', function() {
         };
         // 'c' and 'b' must be sorted
         assert.equal(true, extension.sortPaths(obj), 'c and b must be sorted');
+        assert.equal(obj.folders[1].path, 'b', 'After sorting, the path of the folder with index 1 must be b.');
         // Folders are sorted, should return false now
         assert.equal(false, extension.sortPaths(obj), 'Folders are sorted, should return false now');
     });
