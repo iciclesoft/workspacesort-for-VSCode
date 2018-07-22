@@ -1,6 +1,6 @@
 # WorkspaceSort
 
-WorkspaceSort adds the ability to sort workspace-folders in the same way as files and inner-folders are sorted. There are two ways to sort your workspace folders:
+Sort workspace-folders the same way as files and inner-folders are sorted rather than sorting them in chronological order. There are two ways to sort your workspace folders:
 * Right-click on a folder in your explorer and click `Sort Workspace Folders`.
 * Open the Command-palette and type `Sort Workspace Folders`.
 
