@@ -13,6 +13,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - Optional setting `workspacesort.workspaceDirectory`, which can be used to point to the directory of the .code-workspace file. This is only necessary if it can't be resolved automatically.
 
+## [1.2.0] - 2018-10-05
+### Added
+- The `name` property is now taken into account when sorting the workspace folders, instead of only looking at the directory name.
+
 ### Changed
 - The way the .code-workspace filename is determined, making it not bound to a locale.
 - The way the .code-workspace file is being searched by traversing the file-tree to find the right file.

@@ -22,9 +22,9 @@ suite('Extension Tests', function() {
         let existingPath = nodePath.join(__dirname, 'extension.test.js');
         let nonExistingPath = nodePath.join(__dirname, 'extension.js');
 
-        // This file test/extension.test.js exists
+        // The file test/extension.test.js exists
         assert.equal(true, extension.fileExists(existingPath), 'The file ' + existingPath + ' does exist.');
-        // This file test/extension.js does not exist
+        // The file test/extension.js does not exist
         assert.equal(false, extension.fileExists(nonExistingPath), 'The file ' + nonExistingPath + ' does not exist.');
     });
 
@@ -73,10 +73,9 @@ suite('Extension Tests', function() {
                 {'path': 'b'}
             ]
         };
-        // 'c' and 'b' must be sorted
+        
         assert.equal(true, extension.sortPaths(obj), 'c and b must be sorted');
         assert.equal(obj.folders[1].path, 'b', 'After sorting, the path of the folder with index 1 must be b.');
-        // Folders are sorted, should return false now
         assert.equal(false, extension.sortPaths(obj), 'Folders are sorted, should return false now');
     });
 
@@ -85,27 +84,51 @@ suite('Extension Tests', function() {
         let separatedSingleDir = sep + expected + sep;
         let singleDir = expected;
         let multipleDir = 'dirA' + sep + 'dirB' + sep + expected;
-        // Postfixed separator should be removed
+        
         assert.equal(expected, extension.topLevelDirectory(separatedSingleDir), 'Postfixed separator should be removed');
-        // Separatorless input should be the output
         assert.equal(expected, extension.topLevelDirectory(singleDir), 'Separatorless input should be the output');
-        // Multiple levels should return the last level
         assert.equal(expected, extension.topLevelDirectory(multipleDir), 'Multiple levels should return the last level');
     });
 
-    test('alphabeticalPaths', function() {
-        let a = {'path': 'a'};
-        let a2 = {'path': 'a'};
-        let b = {'path': 'b'};
-        let capB = {'path': 'B'};
-        // a is less than b
-        assert.equal(-1, extension.alphabeticalPaths(a, b), 'a is less than b');
-        // b is more than a
-        assert.equal(1, extension.alphabeticalPaths(b, a), 'b is more than a');
-        // a and a2 are equal
-        assert.equal(0, extension.alphabeticalPaths(a, a2), 'a and a2 are equal');
-        // Upper- and lowercase should be equal
-        assert.equal(0, extension.alphabeticalPaths(b, capB), 'Upper- and lowercase should be equal');
+    test('alphabetical', function() {
+        // Paths only
+        let pathA = {'path': 'a'};
+        let pathA2 = {'path': 'a'};
+        let pathB = {'path': 'b'};
+        let pathCapB = {'path': 'B'};
+        
+        assert.equal(-1, extension.alphabetical(pathA, pathB), 'a is less than b');
+        assert.equal(1, extension.alphabetical(pathB, pathA), 'b is more than a');
+        assert.equal(0, extension.alphabetical(pathA, pathA2), 'a and a2 are equal');
+        assert.equal(0, extension.alphabetical(pathB, pathCapB), 'Upper- and lowercase should be equal');
+
+        // Name only
+        let nameA = {
+            'name': 'a',
+            'path': '0'
+        };
+        let nameB = {
+            'name': 'b',
+            'path': '0'
+        };
+
+        assert.equal(-1, extension.alphabetical(nameA, nameB), 'a is less than b');
+        assert.equal(1, extension.alphabetical(nameB, nameA), 'b is more than a');
+
+        // Mix
+        let mixA = {
+            'name': 'a',
+            'path': '0'
+        };
+        let mixA2 = {
+            'name': 'a',
+            'path': '0'
+        };
+        let mixB = {'path': 'b'};
+
+        assert.equal(-1, extension.alphabetical(mixA, mixB), 'a is less than b');
+        assert.equal(1, extension.alphabetical(mixB, mixA), 'b is more than a');
+        assert.equal(0, extension.alphabetical(mixA, mixA2), 'a and a2 are equal');
     });
 
     test('isSameArrayContent', function() {
@@ -118,9 +141,8 @@ suite('Extension Tests', function() {
             {'path': 'b'},
             {'path': 'a'}
         ];
-        // arrAB and arrAB2 have the same content
+        
         assert.equal(true, extension.isSameArrayContent(arrAB, arrAB2), 'arrAB and arrAB2 have the same content');
-        // arrAB and arrBA differ
         assert.equal(false, extension.isSameArrayContent(arrAB, arrBA), 'arrAB and arrBA differ');
     });
 });

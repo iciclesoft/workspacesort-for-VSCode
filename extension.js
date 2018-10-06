@@ -82,7 +82,7 @@ function sortPaths(wsObject) {
     let changed = false;
     if (wsObject.folders && wsObject.folders.length > 1) {
         let prev = wsObject.folders.slice();
-        wsObject.folders = wsObject.folders.sort(alphabeticalPaths);
+        wsObject.folders = wsObject.folders.sort(alphabetical);
         changed = !isSameArrayContent(prev, wsObject.folders);
     }
     return changed;
@@ -96,10 +96,22 @@ function topLevelDirectory(path) {
     throw new Error('Invalid argument path, expected string but got ' + typeof path);
 }
 
-function alphabeticalPaths(a, b) {
-    let topLevelA = topLevelDirectory(a.path).toLocaleLowerCase();
-    let topLevelB = topLevelDirectory(b.path).toLocaleLowerCase();
-    return topLevelA === topLevelB ? 0 : topLevelA > topLevelB ? 1 : -1;
+function getShownName(folderObj) {
+    if (!folderObj.path) {
+        throw new Error('Invalid argument folderObj, expected an object with at least a path-property.');
+    }
+    let name = folderObj.name;
+    if (!name) {
+        name = topLevelDirectory(folderObj.path).toLocaleLowerCase();
+    }
+    return name;
+}
+
+function alphabetical(a, b) {
+    let nameA = getShownName(a);
+    let nameB = getShownName(b);
+    
+    return nameA === nameB ? 0 : nameA > nameB ? 1 : -1;
 }
 
 function isSameArrayContent(a, b) {
@@ -149,5 +161,5 @@ exports.fileExists = fileExists;
 exports.sanitizedWorkspaceName = sanitizedWorkspaceName;
 exports.sortPaths = sortPaths;
 exports.topLevelDirectory = topLevelDirectory;
-exports.alphabeticalPaths = alphabeticalPaths;
+exports.alphabetical = alphabetical;
 exports.isSameArrayContent = isSameArrayContent;

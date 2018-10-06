@@ -73,11 +73,11 @@
     },
     "devDependencies": {
         "@types/mocha": "^5.2.5",
-        "@types/node": "^10.5.2",
+        "@types/node": "^10.11.4",
         "eslint": "^4.11.0",
-        "vscode": "^1.1.18"
+        "vscode": "^1.1.21"
     },
     "dependencies": {
-        "hoek": "^5.0.3"
+        "hoek": "^5.0.4"
     }
 }

@@ -25,6 +25,9 @@ Initial release of WorkspaceSort. In this version it is possible to sort your wo
 - Changed the way the .code-workspace filename is determined, making it not bound to a locale.
 - Changed the way the .code-workspace file is being searched by traversing the file-tree to find the right file.
 
+### 1.2.0
+- The `name` property is now taken into account when sorting the workspace folders, instead of only looking at the directory name.
+
 ### For more information
 
 * [Project's github repository](https://github.com/iciclesoft/workspacesort-for-VSCode)
