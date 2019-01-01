@@ -22,9 +22,8 @@ function sanitizedWorkspaceName(str) {
 
 function isCodeWorkspaceFile(path) {
     if (typeof path === 'string') {
-        if (fileExists(path)) {
-            let fileContent = fs.readFileSync(path);
-            let wsObject = JSON.parse(fileContent);
+        let wsObject = getWorkspaceObject(path);
+        if (typeof wsObject === 'object') {
             let projFolders = vscode.workspace.workspaceFolders;
             if (wsObject.folders && wsObject.folders.length === projFolders.length) {
                 return true;
@@ -76,6 +75,43 @@ function getWorkspacePath() {
     }
 
     return '';
+}
+
+function getWorkspaceObject(path) {
+    if (fileExists(path)) {
+        let fileContent = fs.readFileSync(path);
+        try {
+            return JSON.parse(fileContent);
+        } catch (error) {
+            let linified = linifyParseError(fileContent, error);
+            vscode.window.showErrorMessage(linified);
+            throw error;
+        }
+    }
+    return undefined;
+}
+
+function linifyParseError(fileContent, error) {
+    let newMessage = null;
+    try {
+        let positionPart = /[at position] [\d]+$/;
+        if (positionPart.test(error.message)) {
+            let getPosition = /[\d]+$/;
+            let positionString = getPosition.exec(error.message);
+            let position = parseInt(positionString[0], 10);
+
+            if (Number.isInteger(position)) {
+                let contentString = fileContent.toString('utf8');
+                let subString = contentString.substr(0, position);
+                let breakCount = subString.split('\n').length;
+                newMessage = error.message + ` (Line: ${breakCount})`;
+            }
+        }
+    } catch (e) {
+        // We aren't interested in this error
+    }
+
+    return newMessage || error.message;
 }
 
 function sortPaths(wsObject) {
@@ -137,9 +173,8 @@ function activate(context) {
     // The commandId parameter must match the command field in package.json
     let disposable = vscode.commands.registerCommand('extension.sort', function () {
         let path = getWorkspacePath();
-        if (fileExists(path)) {
-            let fileContent = fs.readFileSync(path);
-            let wsObject = JSON.parse(fileContent);
+        let wsObject = getWorkspaceObject(path);
+        if (typeof wsObject === 'object') {
             if (sortPaths(wsObject)) {
                 fs.writeFileSync(path, JSON.stringify(wsObject, undefined, '\t'));
                 let name = vscode.workspace.name;
@@ -163,3 +198,5 @@ exports.sortPaths = sortPaths;
 exports.topLevelDirectory = topLevelDirectory;
 exports.alphabetical = alphabetical;
 exports.isSameArrayContent = isSameArrayContent;
+exports.getWorkspaceObject = getWorkspaceObject;
+exports.linifyParseError = linifyParseError;

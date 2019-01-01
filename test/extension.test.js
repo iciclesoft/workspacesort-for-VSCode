@@ -10,6 +10,7 @@ const assert = require('assert');
 const extension = require('./../extension');
 const sep = require('path').sep;
 const nodePath = require('path');
+const fs = require('fs');
 
 // You can import and use all API from the 'vscode' module
 // as well as import your extension to test it
@@ -28,6 +29,37 @@ suite('Extension Tests', function() {
         assert.equal(false, extension.fileExists(nonExistingPath), 'The file ' + nonExistingPath + ' does not exist.');
     });
 
+    test('getWorkspaceObject', function () {
+        const invalidCodeWorkspacePath = nodePath.join(__dirname, 'invalid.code-workspace');
+        const validCodeWorkspacePath = nodePath.join(__dirname, 'valid.code-workspace');
+        const validJsonContent = {
+            'folders': [
+                {'path': 'D:\\iciclesoft\\VSCode\\folder test\\MyProject'},
+                {'path': 'D:\\iciclesoft\\VSCode\\folder test\\Libraries'}
+            ],
+            'settings': {'workspacesort.workspaceDirectory': 'D:\\iciclesoft\\VSCode\\folder test\\workspace-files'}
+        };
+        
+        assert.throws(extension.getWorkspaceObject.bind(null, invalidCodeWorkspacePath), 'The content of ' + invalidCodeWorkspacePath + ' is invalid, thus it should throw.');
+        assert.deepEqual(validJsonContent, extension.getWorkspaceObject(validCodeWorkspacePath), 'The content of ' + validCodeWorkspacePath + ' must match ' + validJsonContent + '.');
+    });
+
+    test('linifyParseError', function () {
+        const invalidCodeWorkspacePath = nodePath.join(__dirname, 'invalid.code-workspace');
+        const invalidContent = fs.readFileSync(invalidCodeWorkspacePath);
+        const fakeErrorMessage = 'Error is not a parsing error.';
+        const fakeError = new Error(fakeErrorMessage);
+        let parseError = null;
+        try {
+            extension.getWorkspaceObject(invalidCodeWorkspacePath);
+        } catch (err) {
+            parseError = err;
+        }
+        const expectedParseErrorMsg = 'Unexpected token } in JSON at position 278 (Line: 12)';
+        
+        assert.equal(extension.linifyParseError(invalidContent, parseError), expectedParseErrorMsg, 'A linenumber can be retrieved from the error in combination with the content.');
+        assert.equal(extension.linifyParseError(invalidContent, fakeError), fakeErrorMessage, 'Not a parse error, unable to retrieve a linenumber, message should not be changed.');
+    });
 
     test('sanitizedWorkspaceName', function () {
         let workspacePostfixes = [

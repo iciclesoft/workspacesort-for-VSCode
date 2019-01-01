@@ -28,6 +28,9 @@ Initial release of WorkspaceSort. In this version it is possible to sort your wo
 ### 1.2.0
 - The `name` property is now taken into account when sorting the workspace folders, instead of only looking at the directory name.
 
+### 1.3.1
+- A notification is now shown whenever the `.code-workspace` file could not be parsed, giving an indication of what caused the error.
+
 ### For more information
 
 * [Project's github repository](https://github.com/iciclesoft/workspacesort-for-VSCode)

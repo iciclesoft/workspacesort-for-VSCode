@@ -1,0 +1,13 @@
+{
+	"folders": [
+		{
+			"path": "D:\\iciclesoft\\VSCode\\folder test\\MyProject"
+		},
+		{
+			"path": "D:\\iciclesoft\\VSCode\\folder test\\Libraries"
+		}
+	],
+	"settings": {
+		"workspacesort.workspaceDirectory": "D:\\iciclesoft\\VSCode\\folder test\\workspace-files",
+	}
+}
