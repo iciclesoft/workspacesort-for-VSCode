@@ -21,6 +21,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - The way the .code-workspace filename is determined, making it not bound to a locale.
 - The way the .code-workspace file is being searched by traversing the file-tree to find the right file.
 
-## [1.3.1] - 2019-01-01
+## [1.4.0] - 2019-01-01
 ### Added
 - A notification is now shown whenever the `.code-workspace` file could not be parsed, giving an indication of what caused the error.
