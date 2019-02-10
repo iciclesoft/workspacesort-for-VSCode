@@ -9,6 +9,7 @@
 const assert = require('assert');
 const extension = require('./../extension');
 const sep = require('path').sep;
+const altSep = sep === '\\' ? '/' : '\\';
 const nodePath = require('path');
 const fs = require('fs');
 
@@ -116,6 +117,17 @@ suite('Extension Tests', function() {
         let separatedSingleDir = sep + expected + sep;
         let singleDir = expected;
         let multipleDir = 'dirA' + sep + 'dirB' + sep + expected;
+        
+        assert.equal(expected, extension.topLevelDirectory(separatedSingleDir), 'Postfixed separator should be removed');
+        assert.equal(expected, extension.topLevelDirectory(singleDir), 'Separatorless input should be the output');
+        assert.equal(expected, extension.topLevelDirectory(multipleDir), 'Multiple levels should return the last level');
+    });
+
+    test('topLevelDirectory alternative separator', function () {
+        let expected = 'dir';
+        let separatedSingleDir = altSep + expected + altSep;
+        let singleDir = expected;
+        let multipleDir = 'dirA' + altSep + 'dirB' + altSep + expected;
         
         assert.equal(expected, extension.topLevelDirectory(separatedSingleDir), 'Postfixed separator should be removed');
         assert.equal(expected, extension.topLevelDirectory(singleDir), 'Separatorless input should be the output');

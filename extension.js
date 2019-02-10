@@ -3,6 +3,7 @@ const vscode = require('vscode');
 const fs = require('fs');
 const nodePath = require('path');
 const sep = nodePath.sep;
+const altSep = sep === '\\' ? '/' : '\\';
 
 function fileExists(path) {
     if (typeof path === 'string') {
@@ -127,6 +128,7 @@ function sortPaths(wsObject) {
 function topLevelDirectory(path) {
     if (typeof path === 'string') {
         let split = path.split(sep).filter(it => Boolean(it.length));
+        split = split[split.length - 1].split(altSep).filter(it => Boolean(it.length));
         return split[split.length - 1];
     }
     throw new Error('Invalid argument path, expected string but got ' + typeof path);
