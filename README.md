@@ -31,6 +31,9 @@ Initial release of WorkspaceSort. In this version it is possible to sort your wo
 ### 1.4.0
 - A notification is now shown whenever the `.code-workspace` file could not be parsed, giving an indication of what caused the error.
 
+### 1.5.8
+- Added support for WSL
+
 ### For more information
 
 * [Project's github repository](https://github.com/iciclesoft/workspacesort-for-VSCode)

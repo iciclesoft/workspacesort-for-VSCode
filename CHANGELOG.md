@@ -24,3 +24,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [1.4.0] - 2019-01-01
 ### Added
 - A notification is now shown whenever the `.code-workspace` file could not be parsed, giving an indication of what caused the error.
+
+## [1.5.8] - 2019-09-07
+### Added
+- Added support for WSL
