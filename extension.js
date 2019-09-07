@@ -36,6 +36,14 @@ function isCodeWorkspaceFile(path) {
 }
 
 function getWorkspacePath() {
+    // Try to get the path through the new workspace-information
+    if (fileExists(vscode.workspace.workspaceFile.fsPath)) {
+        return vscode.workspace.workspaceFile.fsPath;
+    }
+    if (fileExists(vscode.workspace.workspaceFile.path)) {
+        return vscode.workspace.workspaceFile.path;
+    }
+
     let name = sanitizedWorkspaceName(vscode.workspace.name);
     let workspaceFile = name + '.code-workspace';
     // First, check the settings
