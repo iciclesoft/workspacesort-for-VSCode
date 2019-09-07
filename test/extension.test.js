@@ -82,6 +82,22 @@ suite('Extension Tests', function() {
             ' (Çalışma Alanı)'
         ];
 
+        let workspaceWslPostFixes = [
+            '',
+            ' [WSL: Ubuntu-16.04]',
+            ' [WSL: Ubuntu-18.04]',
+            ' [WSL: OpenSUSE-Leap-15]',
+            ' [WSL: OpenSUSE-Leap-42]',
+            ' [WSL: SUSE Linux Enterprise Server 12]',
+            ' [WSL: SUSE Linux Enterprise Server 15]',
+            ' [WSL: Kali-Linux]',
+            ' [WSL: Debian-GNU/Linux]',
+            ' [WSL: Fedora-Remix-for-WSL]',
+            ' [WSL: Pengwin]',
+            ' [WSL: Pengwin-Enterprise]',
+            ' [WSL: Alpine-WSL]'
+        ]
+
         let workspaceNames = [
             'imageFilter',
             'Tower Defense',
@@ -91,9 +107,11 @@ suite('Extension Tests', function() {
 
         workspaceNames.forEach(function (name) {
             workspacePostfixes.forEach(function (postfix) {
-                let postfixedName = name + postfix;
-                let sanitized = extension.sanitizedWorkspaceName(postfixedName);
-                assert.equal(name, sanitized, postfixedName + ' should become ' + name + ' after sanitizing instead of ' + sanitized + '.');
+                workspaceWslPostFixes.forEach(function (wslPostfix) {
+                    let postfixedName = name + postfix + wslPostfix;
+                    let sanitized = extension.sanitizedWorkspaceName(postfixedName);
+                    assert.equal(name, sanitized, postfixedName + ' should become ' + name + ' after sanitizing instead of ' + sanitized + '.');
+                });
             });
         });
     });

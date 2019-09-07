@@ -18,7 +18,7 @@ function fileExists(path) {
 }
 
 function sanitizedWorkspaceName(str) {
-    return str.replace(/\s(\([^()]+\))$/, '');
+    return str.replace(/\s(\[.+\])$/, '').replace(/\s(\([^()]+\))$/, '');
 }
 
 function isCodeWorkspaceFile(path) {
@@ -54,7 +54,15 @@ function getWorkspacePath() {
             }
         }
     }
-    // No setting active? Get it from the folder-structure
+    // No setting active? Search the file ourselves
+    // First, try to get the path through the new workspace-information
+    if (fileExists(vscode.workspace.workspaceFile.fsPath)) {
+        return vscode.workspace.workspaceFile.fsPath;
+    }
+    if (fileExists(vscode.workspace.workspaceFile.path)) {
+        return vscode.workspace.workspaceFile.path;
+    }
+    // Get it from the folder-structure
     let visited = [];
     let projFolders = vscode.workspace.workspaceFolders;
     // Walk the project tree
@@ -148,7 +156,7 @@ function getShownName(folderObj) {
 function alphabetical(a, b) {
     let nameA = getShownName(a);
     let nameB = getShownName(b);
-    
+
     return nameA === nameB ? 0 : nameA > nameB ? 1 : -1;
 }
 

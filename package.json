@@ -2,7 +2,7 @@
     "name": "workspacesort",
     "displayName": "WorkspaceSort",
     "description": "WorkspaceSort adds the ability to sort workspace-folders in the same way as files and inner-folders are sorted.",
-    "version": "1.5.6",
+    "version": "1.5.7",
     "author": "Marco de Zeeuw",
     "publisher": "iciclesoft",
     "license": "MIT",
@@ -73,9 +73,9 @@
     },
     "devDependencies": {
         "@types/mocha": "^5.2.7",
-        "@types/node": "^10.14.12",
+        "@types/node": "^10.14.17",
         "eslint": "^4.11.0",
-        "vscode": "^1.1.35"
+        "vscode": "^1.1.36"
     },
     "dependencies": {
         "hoek": "^5.0.4"
