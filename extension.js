@@ -18,7 +18,7 @@ function fileExists(path) {
 }
 
 function sanitizedWorkspaceName(str) {
-    return str.replace(/\s(\([^()]+\))$/, '');
+    return str.replace(/\s(\[.+\])$/, '').replace(/\s(\([^()]+\))$/, '');
 }
 
 function isCodeWorkspaceFile(path) {
@@ -156,7 +156,7 @@ function getShownName(folderObj) {
 function alphabetical(a, b) {
     let nameA = getShownName(a);
     let nameB = getShownName(b);
-    
+
     return nameA === nameB ? 0 : nameA > nameB ? 1 : -1;
 }
 
