@@ -10,6 +10,12 @@ To install the extension, press Ctrl-P or Cmd-P (Mac) in VSCode and execute the 
 
 `ext install WorkspaceSort`
 
+# Support
+
+You can now support me on Patreon! Backing me up by becoming a Patron is a huge deal to me as it would bring me one step closer to breaking even with the costs I have for keeping everything up-and-running.
+
+[Visit patreon.com/iciclesoft](https://www.patreon.com/iciclesoft)
+
 # Contribute
 
 If you would like to contribute to WorkspaceSort, you can find the github repository at [github.com/iciclesoft/workspacesort-for-VSCode](https://github.com/iciclesoft/workspacesort-for-VSCode). You are free to fork the repository and create pull-requests. Please make sure all unit tests pass before creating a pull-request.
