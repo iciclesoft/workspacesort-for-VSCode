@@ -40,6 +40,9 @@ Initial release of WorkspaceSort. In this version it is possible to sort your wo
 ### 1.5.8
 - Added support for WSL
 
+### 1.6.0
+- Added automated sorting when folders are added to the workspace. This can turned off with the setting `workspacesort.sortAutomatically`.
+
 ### For more information
 
 * [Project's github repository](https://github.com/iciclesoft/workspacesort-for-VSCode)

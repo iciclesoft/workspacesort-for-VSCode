@@ -25,7 +25,8 @@
         "Other"
     ],
     "activationEvents": [
-        "onCommand:extension.sort"
+        "onCommand:extension.sort",
+        "onFileSystem:file"
     ],
     "main": "./extension",
     "contributes": {
@@ -55,6 +56,11 @@
                     ],
                     "default": null,
                     "description": "(Optional) The absolute path of the directory containing the .code-workspace file. Instead of trying to find the file automatically it will now use this directory."
+                },
+                "workspacesort.sortAutomatically": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Tells the extension wether to sort automatically when changes to the workspace folders are detected. When set to false, sorting has to be triggered manually."
                 }
             }
         }

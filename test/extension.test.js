@@ -96,7 +96,7 @@ suite('Extension Tests', function() {
             ' [WSL: Pengwin]',
             ' [WSL: Pengwin-Enterprise]',
             ' [WSL: Alpine-WSL]'
-        ]
+        ];
 
         let workspaceNames = [
             'imageFilter',

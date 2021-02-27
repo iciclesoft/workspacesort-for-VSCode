@@ -28,3 +28,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [1.5.8] - 2019-09-07
 ### Added
 - Added support for WSL
+
+## [1.6.0] - 2021-02-27
+### Added
+- Added automated sorting when folders are added to the workspace. This can turned off with the setting `workspacesort.sortAutomatically`.

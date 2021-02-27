@@ -175,27 +175,43 @@ function isSameArrayContent(a, b) {
     return result;
 }
 
+function sortWorkspaceFolders(notifySuccess) {
+    let path = getWorkspacePath();
+    let wsObject = getWorkspaceObject(path);
+    if (typeof wsObject === 'object') {
+        if (sortPaths(wsObject)) {
+            fs.writeFileSync(path, JSON.stringify(wsObject, undefined, '\t'));
+            let name = vscode.workspace.name;
+            if (notifySuccess !== false) {
+                vscode.window.showInformationMessage('Sorted ' + name);
+            }
+        }
+    } else {
+        vscode.window.showErrorMessage('The .code-workspace file for this workspace was not found. Please use the setting workspacesort.workspaceDirectory to tell WorkspaceSort where it can be found.');
+    }
+}
+
+function onDidChangeWorkspaceFolders() {
+    let config = vscode.workspace.getConfiguration('workspacesort');
+    let sortAutomatically = true;
+    if (config.has('sortAutomatically')) {
+        sortAutomatically = config.get('sortAutomatically');
+    }
+    if (sortAutomatically) {
+        sortWorkspaceFolders(false);
+    }
+}
+
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
 function activate(context) {
     // The command has been defined in the package.json file
     // Now provide the implementation of the command with  registerCommand
     // The commandId parameter must match the command field in package.json
-    let disposable = vscode.commands.registerCommand('extension.sort', function () {
-        let path = getWorkspacePath();
-        let wsObject = getWorkspaceObject(path);
-        if (typeof wsObject === 'object') {
-            if (sortPaths(wsObject)) {
-                fs.writeFileSync(path, JSON.stringify(wsObject, undefined, '\t'));
-                let name = vscode.workspace.name;
-                vscode.window.showInformationMessage('Sorted ' + name);
-            }
-        } else {
-            vscode.window.showErrorMessage('The .code-workspace file for this workspace was not found. Please use the setting workspacesort.workspaceDirectory to tell WorkspaceSort where it can be found.');
-        }
-    });
+    let disposable = vscode.commands.registerCommand('extension.sort', sortWorkspaceFolders);
 
     context.subscriptions.push(disposable);
+    vscode.workspace.onDidChangeWorkspaceFolders(onDidChangeWorkspaceFolders);
 }
 exports.activate = activate;
 
