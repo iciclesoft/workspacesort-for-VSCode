@@ -193,6 +193,20 @@ suite('Extension Tests', function() {
         assert.equal(0, extension.alphabetical(mixA, mixA2), 'a and a2 are equal');
     });
 
+    test('punctuationSort', function () {
+        let withPunctiation = {'path': 'át the front'};
+        let withoutPunctiation = {'path': 'punctiation'};
+
+        assert.equal(-1, extension.alphabetical(withPunctiation, withoutPunctiation), 'á should be less than p');
+    });
+
+    test('caseInsensitiveSort', function () {
+        let upperStart = {'path': 'A'};
+        let lowerStart = {'path': 'a'};
+
+        assert.equal(0, extension.alphabetical(upperStart, lowerStart), 'A should be equal to a');
+    });
+
     test('isSameArrayContent', function() {
         let arrAB = [
             {'path': 'a'},

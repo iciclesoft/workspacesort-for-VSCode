@@ -157,7 +157,7 @@ function alphabetical(a, b) {
     let nameA = getShownName(a);
     let nameB = getShownName(b);
 
-    return nameA === nameB ? 0 : nameA > nameB ? 1 : -1;
+    return nameA.localeCompare(nameB);
 }
 
 function isSameArrayContent(a, b) {

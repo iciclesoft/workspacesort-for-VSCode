@@ -79,9 +79,9 @@
     },
     "devDependencies": {
         "@types/mocha": "^5.2.7",
-        "@types/node": "^10.17.19",
+        "@types/node": "^10.17.60",
         "eslint": "^4.11.0",
-        "vscode": "^1.1.36"
+        "vscode": "^1.1.37"
     },
     "dependencies": {
         "hoek": "^5.0.4"
