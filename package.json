@@ -84,6 +84,7 @@
         "vscode": "^1.1.37"
     },
     "dependencies": {
-        "hoek": "^5.0.4"
+        "hoek": "^5.0.4",
+        "jsonic": "^1.0.1"
     }
 }

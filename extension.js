@@ -2,6 +2,7 @@
 const vscode = require('vscode');
 const fs = require('fs');
 const nodePath = require('path');
+const jsonic = require('jsonic');
 const sep = nodePath.sep;
 const altSep = sep === '\\' ? '/' : '\\';
 
@@ -90,7 +91,8 @@ function getWorkspaceObject(path) {
     if (fileExists(path)) {
         let fileContent = fs.readFileSync(path);
         try {
-            return JSON.parse(fileContent);
+            return jsonic(jsonic(fileContent));
+            // return JSON.parse(fileContent);
         } catch (error) {
             let linified = linifyParseError(fileContent, error);
             vscode.window.showErrorMessage(linified);

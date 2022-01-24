@@ -31,7 +31,6 @@ suite('Extension Tests', function() {
     });
 
     test('getWorkspaceObject', function () {
-        const invalidCodeWorkspacePath = nodePath.join(__dirname, 'invalid.code-workspace');
         const validCodeWorkspacePath = nodePath.join(__dirname, 'valid.code-workspace');
         const validJsonContent = {
             'folders': [
@@ -40,9 +39,8 @@ suite('Extension Tests', function() {
             ],
             'settings': {'workspacesort.workspaceDirectory': 'D:\\iciclesoft\\VSCode\\folder test\\workspace-files'}
         };
-        
-        assert.throws(extension.getWorkspaceObject.bind(null, invalidCodeWorkspacePath), 'The content of ' + invalidCodeWorkspacePath + ' is invalid, thus it should throw.');
-        assert.deepEqual(validJsonContent, extension.getWorkspaceObject(validCodeWorkspacePath), 'The content of ' + validCodeWorkspacePath + ' must match ' + validJsonContent + '.');
+        const result = extension.getWorkspaceObject(validCodeWorkspacePath);
+        assert.deepEqual(validJsonContent, result, 'The content of ' + validCodeWorkspacePath + ' must match ' + JSON.stringify(validJsonContent) + ' but instead found ' + JSON.stringify(result));
     });
 
     test('linifyParseError', function () {
@@ -50,15 +48,9 @@ suite('Extension Tests', function() {
         const invalidContent = fs.readFileSync(invalidCodeWorkspacePath);
         const fakeErrorMessage = 'Error is not a parsing error.';
         const fakeError = new Error(fakeErrorMessage);
-        let parseError = null;
-        try {
-            extension.getWorkspaceObject(invalidCodeWorkspacePath);
-        } catch (err) {
-            parseError = err;
-        }
-        const expectedParseErrorMsg = 'Unexpected token } in JSON at position 278 (Line: 12)';
         
-        assert.equal(extension.linifyParseError(invalidContent, parseError), expectedParseErrorMsg, 'A linenumber can be retrieved from the error in combination with the content.');
+        extension.getWorkspaceObject(invalidCodeWorkspacePath);
+
         assert.equal(extension.linifyParseError(invalidContent, fakeError), fakeErrorMessage, 'Not a parse error, unable to retrieve a linenumber, message should not be changed.');
     });
 
