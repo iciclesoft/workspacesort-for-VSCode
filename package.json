@@ -80,7 +80,7 @@
     "devDependencies": {
         "@types/mocha": "^5.2.7",
         "@types/node": "^10.17.60",
-        "eslint": "^4.11.0",
+        "eslint": "^8.39.0",
         "vscode": "^1.1.37"
     },
     "dependencies": {
